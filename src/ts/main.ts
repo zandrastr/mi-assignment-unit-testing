@@ -58,7 +58,7 @@ export function createHtml(todos: Todo[]) {
 }
 
 export function toggleTodo(todo: Todo) {
-  exports.changeTodo(todo);
+  changeTodo(todo);
   exports.createHtml(todos);
 }
 

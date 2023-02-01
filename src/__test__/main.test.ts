@@ -3,8 +3,9 @@
  */
 
 import * as main from '../ts/main';
+import * as functions from '../ts/functions';
 import { Todo } from "../ts/models/Todo";
-import { createNewTodo } from '../ts/main';
+import { createNewTodo, toggleTodo } from '../ts/main';
 
 beforeEach(() => {
     document.body.innerHTML = "";
@@ -43,4 +44,16 @@ describe ("check if function createNewTodo calls the correct function", () => {
     });   
 });
 
+test('should call functions changeTodo and createHtml when function toggleTodo is called', () => {
+    // Arrange
+    let myTask = {text: "My new task", done: true};
+    let spy1 = jest.spyOn(functions, "changeTodo").mockReturnValue();
+    let spy2 = jest.spyOn(main, "createHtml").mockReturnValue();
 
+    // Act
+    toggleTodo(myTask);
+
+    // Assert
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+});    
