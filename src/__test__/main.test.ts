@@ -5,7 +5,7 @@
 import * as main from '../ts/main';
 import * as functions from '../ts/functions';
 import { Todo } from "../ts/models/Todo";
-import { createNewTodo, toggleTodo } from '../ts/main';
+import { createNewTodo, toggleTodo, clearTodos } from '../ts/main';
 
 beforeEach(() => {
     document.body.innerHTML = "";
@@ -52,6 +52,20 @@ test('should call functions changeTodo and createHtml when function toggleTodo i
 
     // Act
     toggleTodo(myTask);
+
+    // Assert
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+});    
+
+test('should call functions removeAllTodos and createHtml when function clearTodos is called', () => {
+    // Arrange
+    let tasks: Todo[] = [{text: "My first task", done: true}, {text: "My second task", done: false} ];
+    let spy1 = jest.spyOn(functions, "removeAllTodos").mockReturnValue();
+    let spy2 = jest.spyOn(main, "createHtml").mockReturnValue();
+
+    // Act
+    clearTodos(tasks);
 
     // Assert
     expect(spy1).toHaveBeenCalled();

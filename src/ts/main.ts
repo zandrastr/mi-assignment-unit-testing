@@ -77,7 +77,7 @@ export function displayError(error: string, show: boolean) {
 }
 
 export function clearTodos(todos: Todo[]) {
-  exports.removeAllTodos(todos);
+  removeAllTodos(todos);
   exports.createHtml(todos);
 }
 
