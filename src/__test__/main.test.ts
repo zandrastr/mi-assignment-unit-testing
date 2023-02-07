@@ -5,14 +5,14 @@
 import * as main from '../ts/main';
 import * as functions from '../ts/functions';
 import { Todo } from "../ts/models/Todo";
-import { createNewTodo, toggleTodo, clearTodos } from '../ts/main';
+import { createNewTodo, toggleTodo, clearTodos, createHtml } from '../ts/main';
 
 beforeEach(() => {
     document.body.innerHTML = "";
 });
 
 afterEach(() => {
-      jest.restoreAllMocks();
+    jest.restoreAllMocks();
 });
 
 describe ("check if function createNewTodo calls the correct function", () => {
@@ -29,7 +29,7 @@ describe ("check if function createNewTodo calls the correct function", () => {
         // Assert
         expect(spy).toHaveBeenCalled();
     });  
-    
+  
     test('should call function displayError', () => {
         // Arrange
         let tasks: Todo[] = [];
@@ -71,3 +71,35 @@ test('should call functions removeAllTodos and createHtml when function clearTod
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
 });    
+
+describe("check if function createHtml creates elements and adds classes", () => {
+    
+    test('should create li element and add correct class', () => {
+        // Arrange
+        document.body.innerHTML = `<ul id="todos" class="todo"> </ul>`;
+        let tasks: Todo[] = [{text: "My new task", done: false }];
+        
+        // Act
+        createHtml(tasks);
+        let existingLiElement: HTMLLIElement = document.querySelector(".todo__text") as HTMLLIElement;
+        
+        // Assert
+        expect(existingLiElement.innerHTML).toEqual("My new task");
+        expect(existingLiElement.classList.contains("todo__text")).toBeTruthy();
+        expect(existingLiElement.classList.contains("todo__text--done")).toBeFalsy();
+    });  
+    
+    test('should add class to li element when task is done', () => {
+        // Arrange
+        document.body.innerHTML = `<ul id="todos" class="todo"> </ul>`;
+        let tasks: Todo[] = [{text: "My task", done: true }];
+        
+        // Act
+        createHtml(tasks);
+        let existingLiElement: HTMLLIElement = document.querySelector(".todo__text--done") as HTMLLIElement;
+        
+        // Assert
+        expect(existingLiElement.classList.contains("todo__text--done"));
+    });
+});
+  
